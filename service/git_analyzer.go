@@ -18,7 +18,7 @@ import (
 type database map[string]*model.AggregatedStat
 type repoStat map[string]*model.RepoStat
 type rawStat map[string][]model.Stat
-type users map[string]bool
+type users map[string]string
 
 type gitAnalyzer struct {
 	db        database
@@ -162,6 +162,14 @@ func (g *gitAnalyzer) GetUserStats(ctx context.Context, email string, repository
 func (g *gitAnalyzer) GetAllStats(ctx context.Context, repository string) ([]*model.AggregatedStat, error) {
 	return nil, nil
 
+}
+
+func (g *gitAnalyzer) GetAllEmail(ctx context.Context) ([]string, error) {
+	results := []string{}
+	for k, _ := range g.users {
+		results = append(results, k)
+	}
+	return results, nil
 }
 
 func NewGitAnalyzer() Analyzer {
